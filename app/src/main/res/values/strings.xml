@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MarinaTFM</string>
+    <string name="title_home">Menú principal</string>
+    <string name="title_recordings">Últimas grabaciones</string>
+    <string name="title_info">Información</string>
+    <string name="tab_planning">Planificación</string>
+    <string name="tab_exercises">Ejercicios</string>
+</resources>
