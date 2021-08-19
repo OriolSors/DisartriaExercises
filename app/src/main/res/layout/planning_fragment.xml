@@ -6,6 +6,7 @@
     tools:context=".ui.home.planning.PlanningFragment">
 
     <TextView
+        android:id="@+id/planningText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="PLANNING" />

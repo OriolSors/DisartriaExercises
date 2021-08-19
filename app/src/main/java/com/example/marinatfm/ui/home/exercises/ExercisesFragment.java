@@ -13,26 +13,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.marinatfm.R;
+import com.example.marinatfm.databinding.ExercisesFragmentBinding;
 
 public class ExercisesFragment extends Fragment {
 
-    private ExercisesViewModel mViewModel;
+    private ExercisesViewModel exercisesViewModel;
+    private ExercisesFragmentBinding binding;
 
-    public static ExercisesFragment newInstance() {
-        return new ExercisesFragment();
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        exercisesViewModel = new ViewModelProvider(this).get(ExercisesViewModel.class);
+
+        binding = ExercisesFragmentBinding.inflate(inflater, container, false);
+
+
+        return binding.getRoot();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.exercises_fragment, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ExercisesViewModel.class);
-        // TODO: Use the ViewModel
-    }
 
 }

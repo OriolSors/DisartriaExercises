@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "879809968360",
+    "project_id": "disartriaexercises",
+    "storage_bucket": "disartriaexercises.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879809968360:android:eac1e73d27d686a2ac315d",
+        "android_client_info": {
+          "package_name": "com.example.marinatfm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879809968360-rlqknaio2c5cg328vu6629qer1s3u317.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsG87Wpo3ixkaoqUdXmPAFWXJKlRpsfXw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879809968360-rlqknaio2c5cg328vu6629qer1s3u317.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
