@@ -40,9 +40,12 @@ public class HomeFragment extends Fragment {
         TabLayout.TabView tabPlanning = Objects.requireNonNull(binding.tabs.getTabAt(0)).view;
         TabLayout.TabView tabExercises = Objects.requireNonNull(binding.tabs.getTabAt(1)).view;
 
+        //TODO: Select one tab or another depending on the user
+        binding.tabs.selectTab(tabExercises.getTab());
+
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, PlanningFragment.class, null)
+                .replace(R.id.fragmentContainerView, ExercisesFragment.class, null)
                 .setReorderingAllowed(true)
                 .addToBackStack("name") // name can be null
                 .commit();

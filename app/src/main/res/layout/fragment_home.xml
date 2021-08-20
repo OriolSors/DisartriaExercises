@@ -30,23 +30,28 @@
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:background="#EDE8F6"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintFragments"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.home.HomeFragment" >
+            android:layout_height="wrap_content"
+            tools:context=".ui.home.HomeFragment">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F0EAFD"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

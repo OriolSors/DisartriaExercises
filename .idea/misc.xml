@@ -15,7 +15,8 @@
         <entry key="app/src/main/res/layout/fragment_info.xml" value="0.223731884057971" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_recordings.xml" value="0.223731884057971" />
-        <entry key="app/src/main/res/layout/planning_fragment.xml" value="0.223731884057971" />
+        <entry key="app/src/main/res/layout/planning_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/row.xml" value="0.2028985507246377" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2515625" />
       </map>
     </option>

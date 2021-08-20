@@ -2,16 +2,26 @@ package com.example.marinatfm.ui.home.planning;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Space;
+import android.widget.TextView;
 
 import com.example.marinatfm.MainActivity;
 import com.example.marinatfm.R;
@@ -28,25 +38,31 @@ import java.util.Objects;
 
 public class PlanningFragment extends Fragment {
 
+    //ViewModel and Binding declarations
     private PlanningViewModel planningViewModel;
     private PlanningFragmentBinding binding;
 
+    //Real-time Database declarations
     private final DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://disartriaexercises-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+    private final DatabaseReference mRootChild = mDatabase.child("planning");
 
-    private final DatabaseReference mRootChild = mDatabase.child("user");
-
+    //ValueListener declaration
     private ValueEventListener dataListener;
 
+    //Loading Dialog declaration
     private ProgressDialog dialogLoading;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        planningViewModel = new ViewModelProvider(this).get(PlanningViewModel.class);
 
+        //ViewModel and Binding initializations
+        planningViewModel = new ViewModelProvider(this).get(PlanningViewModel.class);
         binding = PlanningFragmentBinding.inflate(inflater, container, false);
 
-        dialogLoading = new ProgressDialog(requireContext());
-        dialogLoading.setMessage("Loading...");
+        //Loading Dialog initialization
+        setLoadingDialog();
+
 
         return binding.getRoot();
     }
@@ -58,14 +74,57 @@ public class PlanningFragment extends Fragment {
         mRootChild.addValueEventListener(dataListener= new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                binding.blockLayout.removeAllViews();
+                for (DataSnapshot block: dataSnapshot.getChildren() ) {
+                    TextView blockText = new TextView(binding.blockLayout.getContext());
+                    blockText.setTextSize(18);
+                    blockText.setText(block.getKey());
+                    blockText.setTextColor(getResources().getColor(R.color.purple_500));
+                    binding.blockLayout.addView(blockText);
 
-                String text = Objects.requireNonNull(dataSnapshot.getValue()).toString();
-                binding.planningText.setText(text);
+                    for(DataSnapshot exercise: block.getChildren()){
+                        LinearLayout checkLayout = new LinearLayout(binding.blockLayout.getContext());
+                        checkLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+                        //TODO: Make correct Space as left margin
+                        TextView blankSpace = new TextView(checkLayout.getContext());
+                        blankSpace.setText("      ");
+
+
+                        CheckBox exerciseCheck = new CheckBox(binding.blockLayout.getContext());
+                        exerciseCheck.setText(exercise.getKey());
+                        exerciseCheck.setTextSize(16);
+                        exerciseCheck.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_700)));
+
+                        checkLayout.addView(blankSpace);
+                        checkLayout.addView(exerciseCheck);
+
+                        Boolean check = exercise.getValue(Boolean.class);
+                        if (check != null) exerciseCheck.setChecked(check);
+                        binding.blockLayout.addView(checkLayout);
+
+
+
+                        //TODO: Separate writing to DB from ValueListener
+                        exerciseCheck.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(check != null)
+                                mRootChild.child(Objects.requireNonNull(block.getKey()))
+                                        .child(Objects.requireNonNull(exercise.getKey()))
+                                        .setValue(!check);
+                            }
+                        });
+
+
+                    }
+
+                }
                 dialogLoading.hide();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -82,6 +141,13 @@ public class PlanningFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+
+
+    private void setLoadingDialog() {
+        dialogLoading = new ProgressDialog(requireContext());
+        dialogLoading.setMessage("Loading...");
     }
 
 }
