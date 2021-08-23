@@ -70,10 +70,10 @@ public class PlanningFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        dialogLoading.show();
         mRootChild.addValueEventListener(dataListener= new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dialogLoading.show();
                 binding.blockLayout.removeAllViews();
                 for (DataSnapshot block: dataSnapshot.getChildren() ) {
                     TextView blockText = new TextView(binding.blockLayout.getContext());
@@ -83,44 +83,54 @@ public class PlanningFragment extends Fragment {
                     binding.blockLayout.addView(blockText);
 
                     for(DataSnapshot exercise: block.getChildren()){
-                        LinearLayout checkLayout = new LinearLayout(binding.blockLayout.getContext());
-                        checkLayout.setOrientation(LinearLayout.HORIZONTAL);
+                        String value = exercise.getValue(String.class);
+                        if (Objects.equals(value, "enabled") || Objects.equals(value, "disabled")) {
 
-                        //TODO: Make correct Space as left margin
-                        TextView blankSpace = new TextView(checkLayout.getContext());
-                        blankSpace.setText("      ");
+                            LinearLayout checkLayout = new LinearLayout(binding.blockLayout.getContext());
+                            checkLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-
-                        CheckBox exerciseCheck = new CheckBox(binding.blockLayout.getContext());
-                        exerciseCheck.setText(exercise.getKey());
-                        exerciseCheck.setTextSize(16);
-                        exerciseCheck.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_700)));
-
-                        checkLayout.addView(blankSpace);
-                        checkLayout.addView(exerciseCheck);
-
-                        Boolean check = exercise.getValue(Boolean.class);
-                        if (check != null) exerciseCheck.setChecked(check);
-                        binding.blockLayout.addView(checkLayout);
+                            //TODO: Make correct Space as left margin
+                            TextView blankSpace = new TextView(checkLayout.getContext());
+                            blankSpace.setText("      ");
 
 
+                            CheckBox exerciseCheck = new CheckBox(binding.blockLayout.getContext());
+                            exerciseCheck.setText(exercise.getKey());
+                            exerciseCheck.setTextSize(16);
+                            exerciseCheck.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_700)));
 
-                        //TODO: Separate writing to DB from ValueListener
-                        exerciseCheck.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if(check != null)
-                                mRootChild.child(Objects.requireNonNull(block.getKey()))
-                                        .child(Objects.requireNonNull(exercise.getKey()))
-                                        .setValue(!check);
-                            }
-                        });
+                            checkLayout.addView(blankSpace);
+                            checkLayout.addView(exerciseCheck);
+
+                            boolean check = Objects.equals(exercise.getValue(String.class), "enabled");
+                            exerciseCheck.setChecked(check);
+
+                            binding.blockLayout.addView(checkLayout);
+
+                            dialogLoading.hide();
+
+                            //TODO: Separate writing to DB from ValueListener
+                            exerciseCheck.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if(exerciseCheck.isChecked()){
+                                        mRootChild.child(Objects.requireNonNull(block.getKey()))
+                                                .child(Objects.requireNonNull(exercise.getKey()))
+                                                .setValue("enabled");
+                                    }else{
+                                        mRootChild.child(Objects.requireNonNull(block.getKey()))
+                                                .child(Objects.requireNonNull(exercise.getKey()))
+                                                .setValue("disabled");
+                                    }
+
+                                }
+                            });
+                        }
 
 
                     }
 
                 }
-                dialogLoading.hide();
             }
 
             @Override
