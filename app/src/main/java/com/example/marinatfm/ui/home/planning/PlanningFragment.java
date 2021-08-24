@@ -64,16 +64,18 @@ public class PlanningFragment extends Fragment {
         setLoadingDialog();
 
 
+
+
         return binding.getRoot();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        dialogLoading.show();
         mRootChild.addValueEventListener(dataListener= new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dialogLoading.show();
                 binding.blockLayout.removeAllViews();
                 for (DataSnapshot block: dataSnapshot.getChildren() ) {
                     TextView blockText = new TextView(binding.blockLayout.getContext());

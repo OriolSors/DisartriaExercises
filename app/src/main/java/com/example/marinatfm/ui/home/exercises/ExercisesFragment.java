@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -57,22 +60,16 @@ public class ExercisesFragment extends Fragment {
     //Loading Dialog declaration
     private ProgressDialog dialogLoading;
 
-    //Custom Adapter declaration
-    private MyAdapter adapter;
-
     //Blocks, Exercises and Images Strings declarations
-    private String[] blocks, exercises;
-    private ArrayList<String> imagesURL;
-
-    //Bitmaps from URL images declarations
-    private ArrayList<Bitmap> images;
+    private ArrayList<String> blocks, exercises;
+    private ArrayList<Integer> images;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         //ViewModel and Binding initializations
         exercisesViewModel = new ViewModelProvider(this).get(ExercisesViewModel.class);
-        binding = ExercisesFragmentBinding.inflate(inflater, container, false);
+        binding = ExercisesFragmentBinding.inflate(getLayoutInflater());
 
         //Loading Dialog initialization
         setLoadingDialog();
@@ -84,44 +81,16 @@ public class ExercisesFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
+        dialogLoading.show();
         mRootChild.addValueEventListener(dataListener= new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //Getting Blocks and Exercises in Real-Time
-                blocks = getBlockNames(dataSnapshot).toArray(new String[0]);
-                exercises = getExerciseNames(dataSnapshot).toArray(new String[0]);
-                imagesURL = getImages(dataSnapshot);
+                getBlocksAndExercises(dataSnapshot);
 
-                images = new ArrayList<>();
-
-                dialogLoading.show();
-
-                ExecutorService executor = Executors.newSingleThreadExecutor();
-                Handler handler = new Handler(Looper.getMainLooper());
-                executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            for (String imageURL: imagesURL) {
-                                images.add(Picasso.get().load(imageURL).resize(100,100).get());
-                            }
-
-                        } catch (IOException ignored) {
-
-                        }
-
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                adapter = new MyAdapter(requireContext(),exercises,blocks,images);
-                                binding.exercisesListView.setAdapter(adapter);
-                                dialogLoading.hide();
-                            }
-                        });
-
-                    }
-                });
-
+                MyAdapter adapter = new MyAdapter(requireContext(),exercises,blocks,images);
+                binding.exercisesListView.setAdapter(adapter);
+                dialogLoading.hide();
                 binding.exercisesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -140,6 +109,7 @@ public class ExercisesFragment extends Fragment {
 
             }
         });
+
 
     }
 
@@ -160,60 +130,39 @@ public class ExercisesFragment extends Fragment {
         dialogLoading.setMessage("Loading...");
     }
 
-    private ArrayList<String> getExerciseNames(@NonNull DataSnapshot dataSnapshot) {
-        ArrayList<String> exerciseList = new ArrayList<>();
+    private void getBlocksAndExercises(@NonNull DataSnapshot dataSnapshot) {
+        exercises = new ArrayList<>();
+        blocks = new ArrayList<>();
+        images = new ArrayList<>();
         for(DataSnapshot block: dataSnapshot.getChildren()){
             for (DataSnapshot exercise : block.getChildren()){
                 if(Objects.equals(exercise.getValue(String.class), "enabled")){
-                    exerciseList.add(exercise.getKey());
+                    exercises.add(exercise.getKey());
+                    blocks.add(block.getKey());
+                    String imageName = Normalizer.normalize(exercise.getKey(), Normalizer.Form.NFD);
+                    imageName = imageName.replaceAll("[^\\p{ASCII}]", "");
+                    imageName = imageName.replaceAll(" ","");
+                    imageName = imageName.toLowerCase(Locale.ROOT);
+                    images.add(requireContext().getResources()
+                            .getIdentifier(imageName,"drawable",requireContext().getPackageName()));
                 }
             }
         }
-        return exerciseList;
     }
 
-    private ArrayList<String> getBlockNames(@NonNull DataSnapshot dataSnapshot) {
-        ArrayList<String> blockList = new ArrayList<>();
-        for(DataSnapshot block: dataSnapshot.getChildren()){
-            for (DataSnapshot exercise : block.getChildren()){
-                if(Objects.equals(exercise.getValue(String.class), "enabled")){
-                    blockList.add(block.getKey());
-                }
-            }
-        }
-        return blockList;
-    }
-
-    private ArrayList<String> getImages(@NonNull DataSnapshot dataSnapshot){
-        //TODO: Hierarchize the RealTime DB and set correctly the images
-        ArrayList<String> imagesList = new ArrayList<>();
-        for(DataSnapshot block: dataSnapshot.getChildren()){
-            boolean found = false;
-            for (DataSnapshot exercise : block.getChildren()){
-                String value = exercise.getValue(String.class);
-                if(Objects.equals(value, "enabled"))found=true;
-                if (found && !Objects.equals(value, "enabled") && !Objects.equals(value, "disabled")) {
-                    imagesList.add(value);
-                }
-            }
-        }
-        return imagesList;
-    }
 
     static class MyAdapter extends ArrayAdapter<String> {
 
         Context context;
-        String[] rTitle;
-        String[] rDescription;
-        ArrayList<Bitmap> rImgs;
+        ArrayList<String> exercises, blocks;
+        ArrayList<Integer> rImgs;
 
-        MyAdapter (Context c, String[] title, String[] description, ArrayList<Bitmap> imgs) {
-            super(c, R.layout.row, R.id.textView1, title);
+        MyAdapter (Context c, ArrayList<String> exercises, ArrayList<String> blocks, ArrayList<Integer> imgs) {
+            super(c, R.layout.row, R.id.textView1, exercises);
             this.context = c;
-            this.rTitle = title;
-            this.rDescription = description;
+            this.exercises = exercises;
+            this.blocks = blocks;
             this.rImgs = imgs;
-
         }
 
         @NonNull
@@ -221,41 +170,18 @@ public class ExercisesFragment extends Fragment {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.row, parent, false);
-            ImageView images = row.findViewById(R.id.image);
-            TextView myTitle = row.findViewById(R.id.textView1);
-            TextView myDescription = row.findViewById(R.id.textView2);
+            ImageView image = row.findViewById(R.id.image);
+            TextView exercise = row.findViewById(R.id.textView1);
+            TextView block = row.findViewById(R.id.textView2);
 
             // now set our resources on views
-            images.setImageBitmap(rImgs.get(position));
-            myTitle.setText(rTitle[position]);
-            myDescription.setText(rDescription[position]);
+            image.setImageResource(rImgs.get(position));
+            image.getLayoutParams().height = 250;
+            image.getLayoutParams().width = 250;
+            exercise.setText(exercises.get(position));
+            block.setText(blocks.get(position));
 
             return row;
-        }
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
         }
     }
 
