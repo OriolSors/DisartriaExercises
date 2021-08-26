@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -12,6 +13,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -26,8 +31,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.marinatfm.MainActivity;
 import com.example.marinatfm.R;
 import com.example.marinatfm.databinding.ExercisesFragmentBinding;
+import com.example.marinatfm.ui.exercises_activities.fonacion.Fonacion4Activity;
+import com.example.marinatfm.ui.home.HomeFragment;
+import com.example.marinatfm.ui.home.HomeFragmentDirections;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -96,7 +105,8 @@ public class ExercisesFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         switch (position){
                             case 0:
-                                Toast.makeText(requireContext(),"testing",Toast.LENGTH_SHORT).show();
+                                NavDirections action = HomeFragmentDirections.actionNavigationHomeToFonacion4Activity();
+                                Navigation.findNavController(requireView()).navigate(action);
                         }
                     }
                 });
