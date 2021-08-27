@@ -1,10 +1,14 @@
 package com.example.marinatfm;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,9 +22,18 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    // Requesting permission to RECORD_AUDIO
+    private boolean permissionToRecordAccepted = false;
+    private String [] permissions = {Manifest.permission.RECORD_AUDIO};
+
+
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -36,6 +49,18 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
 
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case REQUEST_RECORD_AUDIO_PERMISSION:
+                permissionToRecordAccepted  = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                break;
+        }
+        if (!permissionToRecordAccepted ) finish();
 
     }
 
