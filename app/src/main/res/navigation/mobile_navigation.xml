@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_fonacion4Activity"
             app:destination="@id/fonacion4Activity" />
+        <action
+            android:id="@+id/action_navigation_home_to_diadococinesias1Activity"
+            app:destination="@id/diadococinesias1Activity" />
     </fragment>
 
     <fragment
@@ -31,4 +34,8 @@
         android:name="com.example.marinatfm.ui.exercises_activities.fonacion.Fonacion4Activity"
         android:label="activity_fonacion4"
         tools:layout="@layout/activity_fonacion4"/>
+    <activity
+        android:id="@+id/diadococinesias1Activity"
+        android:name="com.example.marinatfm.ui.exercises_activities.diadococinesias.Diadococinesias1Activity"
+        android:label="Diadococinesias1Activity" />
 </navigation>

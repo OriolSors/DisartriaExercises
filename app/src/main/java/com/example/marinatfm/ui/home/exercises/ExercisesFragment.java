@@ -108,7 +108,8 @@ public class ExercisesFragment extends Fragment {
                             Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();
                         }
                         if (exercise.equals(getString(R.string.diadococinesias1))){
-                            Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();
+                            NavDirections action = HomeFragmentDirections.actionNavigationHomeToDiadococinesias1Activity();
+                            Navigation.findNavController(requireView()).navigate(action);
                         }
                         if (exercise.equals(getString(R.string.fonacion4))){
                             NavDirections action = HomeFragmentDirections.actionNavigationHomeToFonacion4Activity();

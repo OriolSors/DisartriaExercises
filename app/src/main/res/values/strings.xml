@@ -25,6 +25,38 @@
         <item>He <b><big>pintado</big></b> un <b><small>cuadro</small></b> para colgar en el <b><big>salón</big></b></item>
     </string-array>
 
+    <!-- Diadococinesias 1 Diadococinesias verbales<!-->
+
+    <string name="exercise_diadococinesias_1">Repita 5 veces en voz alta las sílabas que aparecen en pantalla</string>
+
+    <string-array name="words_diadococinesias_1">
+        <item>TATA</item>
+        <item>KAKA</item>
+        <item>KALA</item>
+        <item>KAPA</item>
+        <item>PATA</item>
+        <item>POTE</item>
+        <item>POTI</item>
+        <item>PETEKA</item>
+        <item>PATAKE</item>
+        <item>TAKAPI</item>
+        <item>TEKEPI</item>
+        <item>DADA</item>
+        <item>GAGA</item>
+        <item>GABO</item>
+        <item>BOGA</item>
+        <item>BODE</item>
+        <item>BODI</item>
+        <item>DOGA</item>
+        <item>DAGO</item>
+        <item>BEDEGA</item>
+        <item>BADAGO</item>
+        <item>OI</item>
+        <item>UE</item>
+        <item>OA</item>
+        <item>UI</item>
+    </string-array>
+
     <!-- Seleccion de ejercicios <!-->
     <string name="fonacion4">variaciondelaintensidad</string>
     <string name="respiracion1">aumentodeltiemporespiratorio</string>
