@@ -45,37 +45,39 @@ import java.util.concurrent.Executors;
 
 public class RecordingsFragment extends Fragment {
 
+    //ViewModel and Binding declarations
     private RecordingsViewModel recordingsViewModel;
     private FragmentRecordingsBinding binding;
 
+    //Cloud Storage declarations
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference listRef = storage.getReference().child("audio");
+
+    //Audio Files declaration
     private ArrayList<File> audioFiles;
 
-    private ArrayList<String> exercises,blocks;
+    //Dates, Exercises and Images integers declarations
+    private ArrayList<String> exercises,dates;
     private ArrayList<Integer> images;
 
     //Loading Dialog declaration
     private ProgressDialog dialogLoading;
 
+    //MediaPlayer declarations
     private MediaPlayer player;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        //ViewModel and Binding initializations
         recordingsViewModel = new ViewModelProvider(this).get(RecordingsViewModel.class);
         binding = FragmentRecordingsBinding.inflate(inflater, container, false);
 
-        audioFiles = new ArrayList<>();
-        exercises = new ArrayList<>();
-        blocks = new ArrayList<>();
-        images = new ArrayList<>();
-
-        player = new MediaPlayer();
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-
-        StorageReference listRef = storage.getReference().child("audio");
-
+        //Loading Dialog initialization
         setLoadingDialog();
+
+        //MediaPlayer and Adapter elements initialization
+        loadPlayerAndAdapterElements();
 
         dialogLoading.show();
 
@@ -102,19 +104,14 @@ public class RecordingsFragment extends Fragment {
                         // Handle any errors
                     }
                 });
-                audioFiles.add(localFile);
-                String[] strings = fileRef.getName().split("_");
-                exercises.add(strings[0]);
-                blocks.add(strings[1]);
-                images.add(android.R.drawable.ic_media_play);
+
+                getDatesAndExercises(fileRef,localFile);
             }
 
-            MyAdapter adapter = new MyAdapter(requireContext(),exercises,blocks,images);
+            MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
             binding.recordingsListView.setAdapter(adapter);
 
             dialogLoading.hide();
-
-
 
             binding.recordingsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -122,29 +119,25 @@ public class RecordingsFragment extends Fragment {
                     String path = audioFiles.get(position).getAbsolutePath();
                     if(player.isPlaying()){
                         adapter.rImgs.set(position, android.R.drawable.ic_media_play);
-                        MyAdapter adapter = new MyAdapter(requireContext(),exercises,blocks,images);
+                        MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
                         binding.recordingsListView.setAdapter(adapter);
-                        player.stop();
-                        player.reset();
+                        stopPlaying();
                     }else{
                         try {
+                            startPlaying(path);
                             adapter.rImgs.set(position,android.R.drawable.ic_media_pause);
-                            MyAdapter adapter = new MyAdapter(requireContext(),exercises,blocks,images);
+                            MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
                             binding.recordingsListView.setAdapter(adapter);
-                            player.setDataSource(path);
-                            player.prepare();
-                            player.start();
                         } catch (IOException e) {
-                            Log.e("Audio test", "prepare() failed");
+                            e.printStackTrace();
                         }
-
                     }
                     player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
                             player.reset();
                             adapter.rImgs.set(position,android.R.drawable.ic_media_play);
-                            MyAdapter adapter = new MyAdapter(requireContext(),exercises,blocks,images);
+                            MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
                             binding.recordingsListView.setAdapter(adapter);
                         }
                     });
@@ -159,13 +152,46 @@ public class RecordingsFragment extends Fragment {
         return binding.getRoot();
     }
 
+    private void loadPlayerAndAdapterElements() {
+        player = new MediaPlayer();
+        audioFiles = new ArrayList<>();
+        exercises = new ArrayList<>();
+        dates = new ArrayList<>();
+        images = new ArrayList<>();
+
+    }
+
+    private void startPlaying(String path) throws IOException {
+        player.setDataSource(path);
+        player.prepare();
+        player.start();
+    }
+
+    private void stopPlaying(){
+        player.stop();
+        player.reset();
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        player.stop();
-        player.reset();
+
+        //Stopping and destroying the MediaPlayer
+        stopPlaying();
         player = null;
+    }
+
+
+    private void getDatesAndExercises(StorageReference fileRef, File localFile) {
+        audioFiles.add(localFile);
+        String[] strings = fileRef.getName().split("_");
+        exercises.add(strings[0]);
+        dates.add(strings[1]);
+        images.add(android.R.drawable.ic_media_play);
+
+
     }
 
     private void setLoadingDialog() {

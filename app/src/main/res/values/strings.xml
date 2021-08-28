@@ -6,6 +6,8 @@
     <string name="tab_planning">Planificación</string>
     <string name="tab_exercises">Ejercicios</string>
 
+    <!-- Fonacion 4 Aumento de la intensidad<!-->
+
     <string name="exercise_fonacion_4">Lea la frase en voz alta, <b><big>aumentando</big></b> o <b><small>disminuyendo</small></b> la
         intensidad en las palabras resaltadas</string>
 
@@ -22,5 +24,12 @@
         <item>No se hizo la <b><big>miel</big></b> para la boca del <b><small>asno</small></b></item>
         <item>He <b><big>pintado</big></b> un <b><small>cuadro</small></b> para colgar en el <b><big>salón</big></b></item>
     </string-array>
+
+    <!-- Seleccion de ejercicios <!-->
+    <string name="fonacion4">variaciondelaintensidad</string>
+    <string name="respiracion1">aumentodeltiemporespiratorio</string>
+    <string name="fonorespiratoria1">grupofonico</string>
+    <string name="diadococinesias1">diadococinesiasverbales</string>
+    <string name="prosodia1">marcarsilaba</string>
 
 </resources>

@@ -69,7 +69,7 @@ public class ExercisesFragment extends Fragment {
     //Loading Dialog declaration
     private ProgressDialog dialogLoading;
 
-    //Blocks, Exercises and Images Strings declarations
+    //Blocks, Exercises and Images integers declarations
     private ArrayList<String> blocks, exercises;
     private ArrayList<Integer> images;
 
@@ -103,10 +103,22 @@ public class ExercisesFragment extends Fragment {
                 binding.exercisesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        switch (position){
-                            case 0:
-                                NavDirections action = HomeFragmentDirections.actionNavigationHomeToFonacion4Activity();
-                                Navigation.findNavController(requireView()).navigate(action);
+                        String exercise = normalizeString(exercises.get(position));
+                        if (exercise.equals(getString(R.string.fonorespiratoria1))){
+                            Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();
+                        }
+                        if (exercise.equals(getString(R.string.diadococinesias1))){
+                            Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();
+                        }
+                        if (exercise.equals(getString(R.string.fonacion4))){
+                            NavDirections action = HomeFragmentDirections.actionNavigationHomeToFonacion4Activity();
+                            Navigation.findNavController(requireView()).navigate(action);
+                        }
+                        if (exercise.equals(getString(R.string.prosodia1))){
+                            Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();
+                        }
+                        if (exercise.equals(getString(R.string.respiracion1))){
+                            Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -149,15 +161,18 @@ public class ExercisesFragment extends Fragment {
                 if(Objects.equals(exercise.getValue(String.class), "enabled")){
                     exercises.add(exercise.getKey());
                     blocks.add(block.getKey());
-                    String imageName = Normalizer.normalize(exercise.getKey(), Normalizer.Form.NFD);
-                    imageName = imageName.replaceAll("[^\\p{ASCII}]", "");
-                    imageName = imageName.replaceAll(" ","");
-                    imageName = imageName.toLowerCase(Locale.ROOT);
                     images.add(requireContext().getResources()
-                            .getIdentifier(imageName,"drawable",requireContext().getPackageName()));
+                            .getIdentifier(normalizeString(exercise.getKey()),"drawable",requireContext().getPackageName()));
                 }
             }
         }
+    }
+
+    private String normalizeString(String str){
+        String imageName = Normalizer.normalize(str, Normalizer.Form.NFD);
+        imageName = imageName.replaceAll("[^\\p{ASCII}]", "");
+        imageName = imageName.replaceAll(" ","");
+        return imageName.toLowerCase(Locale.ROOT);
     }
 
 
