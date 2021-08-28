@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/purple_200"
     android:orientation="horizontal"
-    tools:context=".ui.exercises_activities.diadococinesias.Diadococinesias1Activity">
+    tools:context=".ui.exercises_activities.prosodia.Prosodia1Activity">
 
     <TextView
         android:id="@+id/textView"
@@ -14,7 +14,7 @@
         android:layout_height="61dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/exercise_diadococinesias_1"
+        android:text="@string/exercise_prosodia_1"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:gravity="center"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/wordsLayout"
+        android:id="@+id/triosLayout"
         android:layout_width="713dp"
         android:layout_height="192dp"
         android:layout_marginStart="8dp"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/restartBtn"/>
+        app:layout_constraintStart_toEndOf="@+id/restartBtn" />
 
     <Button
         android:id="@+id/restartBtn"

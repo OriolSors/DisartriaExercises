@@ -34,9 +34,10 @@ import java.util.Date;
 
 public class Diadococinesias1Activity extends AppCompatActivity {
 
+    //Binding declaration
     private ActivityDiadococinesias1Binding binding;
 
-    //CharSequence Sentences declaration
+    //CharSequence Words declaration
     private CharSequence[] words;
 
     //MediaRecorder and File declaration

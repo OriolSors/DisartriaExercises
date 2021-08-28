@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_home_to_diadococinesias1Activity"
             app:destination="@id/diadococinesias1Activity" />
+        <action
+            android:id="@+id/action_navigation_home_to_prosodia1Activity"
+            app:destination="@id/prosodia1Activity" />
     </fragment>
 
     <fragment
@@ -38,4 +41,9 @@
         android:id="@+id/diadococinesias1Activity"
         android:name="com.example.marinatfm.ui.exercises_activities.diadococinesias.Diadococinesias1Activity"
         android:label="Diadococinesias1Activity" />
+    <activity
+        android:id="@+id/prosodia1Activity"
+        android:name="com.example.marinatfm.ui.exercises_activities.prosodia.Prosodia1Activity"
+        android:label="activity_prosodia1"
+        tools:layout="@layout/activity_prosodia1" />
 </navigation>

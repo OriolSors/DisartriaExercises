@@ -116,7 +116,8 @@ public class ExercisesFragment extends Fragment {
                             Navigation.findNavController(requireView()).navigate(action);
                         }
                         if (exercise.equals(getString(R.string.prosodia1))){
-                            Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();
+                            NavDirections action = HomeFragmentDirections.actionNavigationHomeToProsodia1Activity();
+                            Navigation.findNavController(requireView()).navigate(action);
                         }
                         if (exercise.equals(getString(R.string.respiracion1))){
                             Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();

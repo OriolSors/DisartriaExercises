@@ -76,11 +76,15 @@ public class RecordingsFragment extends Fragment {
         //Loading Dialog initialization
         setLoadingDialog();
 
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        dialogLoading.show();
         //MediaPlayer and Adapter elements initialization
         loadPlayerAndAdapterElements();
-
-        dialogLoading.show();
-
         // Now we get the references of these images
         listRef.listAll().addOnSuccessListener(result -> {
             for(StorageReference fileRef : result.getItems()) {
@@ -147,9 +151,6 @@ public class RecordingsFragment extends Fragment {
         }).addOnFailureListener(exception -> {
             // Handle any errors
         });
-
-
-        return binding.getRoot();
     }
 
     private void loadPlayerAndAdapterElements() {

@@ -57,6 +57,46 @@
         <item>UI</item>
     </string-array>
 
+
+    <!-- Prosodia 1 Marcar silaba<!-->
+
+    <string name="exercise_prosodia_1">Lea en voz alta la palabra resaltada en la pantalla</string>
+
+    <string-array name="trios_prosodia_1">
+        <item><b>NÚMERO</b>, NUMERO, NUMERÓ</item>
+        <item>NÚMERO, <b>NUMERO</b>, NUMERÓ</item>
+        <item>NÚMERO, NUMERO, <b>NUMERÓ</b></item>
+
+        <item><b>CÁNTARA</b>, CANTARA, CANTARÁ</item>
+        <item>CÁNTARA, <b>CANTARA</b>, CANTARÁ</item>
+        <item>CÁNTARA, CANTARA, <b>CANTARÁ</b></item>
+
+        <item><b>TÉRMINO</b>, TERMINO, TERMINÓ</item>
+        <item>TÉRMINO, <b>TERMINO</b>, TERMINÓ</item>
+        <item>TÉRMINO, TERMINO, <b>TERMINÓ</b></item>
+
+        <item><b>LÍMITE</b>, LIMITE, LIMITÉ</item>
+        <item>LÍMITE, <b>LIMITE</b>, LIMITÉ</item>
+        <item>LÍMITE, LIMITE, <b>LIMITÉ</b></item>
+
+        <item><b>DEPÓSITO</b>, DEPOSITO, DEPOSITÓ</item>
+        <item>DEPÓSITO, <b>DEPOSITO</b>, DEPOSITÓ</item>
+        <item>DEPÓSITO, DEPOSITO, <b>DEPOSITÓ</b></item>
+
+        <item><b>ÚLTIMO</b>, ULTIMO, ULTIMÓ</item>
+        <item>ÚLTIMO, <b>ULTIMO</b>, ULTIMÓ</item>
+        <item>ÚLTIMO, ULTIMO, <b>ULTIMÓ</b></item>
+
+        <item><b>LÍQUIDO</b>, LIQUIDO, LIQUIDÓ</item>
+        <item>LÍQUIDO, <b>LIQUIDO</b>, LIQUIDÓ</item>
+        <item>LÍQUIDO, LIQUIDO, <b>LIQUIDÓ</b></item>
+
+        <item><b>VÓMITO</b>, VOMITO, VOMITÓ</item>
+        <item>VÓMITO, <b>VOMITO</b>, VOMITÓ</item>
+        <item>VÓMITO, VOMITO, <b>VOMITÓ</b></item>
+
+    </string-array>
+
     <!-- Seleccion de ejercicios <!-->
     <string name="fonacion4">variaciondelaintensidad</string>
     <string name="respiracion1">aumentodeltiemporespiratorio</string>

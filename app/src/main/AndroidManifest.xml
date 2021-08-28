@@ -14,9 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MarinaTFM">
         <activity
-            android:name=".ui.exercises_activities.diadococinesias.Diadococinesias1Activity"
+            android:name=".ui.exercises_activities.prosodia.Prosodia1Activity"
             android:exported="true"
             android:screenOrientation="landscape"/>
+        <activity
+            android:name=".ui.exercises_activities.diadococinesias.Diadococinesias1Activity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.exercises_activities.fonacion.Fonacion4Activity"
             android:exported="true"
