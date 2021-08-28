@@ -166,7 +166,6 @@ public class Diadococinesias1Activity extends AppCompatActivity {
             @Override
             public void run() {
                 if(i >= words.length){
-                    i=0;
                     textView.setText("");
                 }else{
                     textView.setText(words[i]);

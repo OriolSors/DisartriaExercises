@@ -136,16 +136,14 @@ public class Prosodia1Activity extends AppCompatActivity {
     private void shuffleGroupOfThree(CharSequence[] trios) {
         triosShuffled = new ArrayList<>();
         ArrayList<CharSequence> trio_aux = new ArrayList<>();
-        for(int i = 0; i < trios.length; i++){
-            if(i%3 == 0 && i != 0){
+        for (CharSequence trio : trios) {
+            trio_aux.add(trio);
+            if (trio_aux.size() % 3 == 0 && trio_aux.size() != 0) {
                 Collections.shuffle(trio_aux);
                 triosShuffled.addAll(trio_aux);
                 trio_aux = new ArrayList<>();
             }
-            trio_aux.add(trios[i]);
         }
-
-
 
     }
 
@@ -183,13 +181,11 @@ public class Prosodia1Activity extends AppCompatActivity {
     private void loadWords() {
         TextView textView = new TextView(this);
         binding.triosLayout.addView(textView);
-
         textView.post(new Runnable() {
             int i = 0;
             @Override
             public void run() {
                 if(i >= triosShuffled.size()){
-                    i=0;
                     textView.setText("");
                 }else{
                     textView.setText(triosShuffled.get(i));
