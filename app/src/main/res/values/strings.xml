@@ -101,6 +101,53 @@
 
     <string name="exercise_respiracion_1">Inhale durante la linea ascendente, mantenga el aire con la linea plana y exhale cuando aparezca la linea descendente</string>
 
+
+
+    <!-- Prosodia 1 Marcar silaba<!-->
+
+    <string name="exercise_fonorespiratoria_1">Lea en voz alta las palabras, números o imagenes que aparecen en pantalla</string>
+
+    <string-array name="numeros_fonorespiratoria_1">
+        <item>1</item>
+        <item>1, 2</item>
+        <item>1, 2, 3</item>
+        <item>1, 2, 3, 4</item>
+        <item>1, 2, 3, 4, 5</item>
+        <item>1, 2, 3, 4, 5, 6</item>
+        <item>1, 2, 3, 4, 5, 6, 7</item>
+        <item>1, 2, 3, 4, 5, 6, 7, 8</item>
+        <item>1, 2, 3, 4, 5, 6, 7, 8, 9</item>
+        <item>1, 2, 3, 4, 5, 6, 7, 8, 9, 10</item>
+    </string-array>
+
+    <string-array name="dias_fonorespiratoria_1">
+        <item>Lunes</item>
+        <item>Lunes, Martes</item>
+        <item>Lunes, Martes, Miércoles</item>
+        <item>Lunes, Martes, Miércoles, Jueves</item>
+        <item>Lunes, Martes, Miércoles, Jueves, Viernes</item>
+        <item>Lunes, Martes, Miércoles, Jueves, Viernes, Sábado</item>
+        <item>Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo</item>
+    </string-array>
+
+    <string-array name="meses_fonorespiratoria_1">
+        <item>Enero</item>
+        <item>Enero, Febrero</item>
+        <item>Enero, Febrero, Marzo</item>
+        <item>Enero, Febrero, Marzo, Abril</item>
+        <item>Enero, Febrero, Marzo, Abril, Mayo</item>
+        <item>Enero, Febrero, Marzo, Abril, Mayo, Junio</item>
+        <item>Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio</item>
+        <item>Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto</item>
+        <item>Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre</item>
+        <item>Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre</item>
+        <item>Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre</item>
+        <item>Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre</item>
+
+    </string-array>
+
+
+
     <!-- Seleccion de ejercicios <!-->
     <string name="fonacion4">variaciondelaintensidad</string>
     <string name="respiracion1">aumentodeltiemporespiratorio</string>

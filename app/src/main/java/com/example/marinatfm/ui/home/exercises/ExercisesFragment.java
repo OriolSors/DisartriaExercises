@@ -105,7 +105,8 @@ public class ExercisesFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String exercise = normalizeString(exercises.get(position));
                         if (exercise.equals(getString(R.string.fonorespiratoria1))){
-                            Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();
+                            NavDirections action = HomeFragmentDirections.actionNavigationHomeToFonorespiratoria1Activity();
+                            Navigation.findNavController(requireView()).navigate(action);
                         }
                         if (exercise.equals(getString(R.string.diadococinesias1))){
                             NavDirections action = HomeFragmentDirections.actionNavigationHomeToDiadococinesias1Activity();

@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_navigation_home_to_respiracion1Activity"
             app:destination="@id/respiracion1Activity" />
+        <action
+            android:id="@+id/action_navigation_home_to_fonorespiratoria1Activity"
+            app:destination="@id/fonorespiratoria1Activity" />
     </fragment>
 
     <fragment
@@ -54,4 +57,9 @@
         android:name="com.example.marinatfm.ui.exercises_activities.respiracion.Respiracion1Activity"
         android:label="activity_respiracion1"
         tools:layout="@layout/activity_respiracion1" />
+    <activity
+        android:id="@+id/fonorespiratoria1Activity"
+        android:name="com.example.marinatfm.ui.exercises_activities.fonorespiratoria.Fonorespiratoria1Activity"
+        android:label="activity_fonorespiratoria1"
+        tools:layout="@layout/activity_fonorespiratoria1" />
 </navigation>
