@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_home_to_prosodia1Activity"
             app:destination="@id/prosodia1Activity" />
+        <action
+            android:id="@+id/action_navigation_home_to_respiracion1Activity"
+            app:destination="@id/respiracion1Activity" />
     </fragment>
 
     <fragment
@@ -46,4 +49,9 @@
         android:name="com.example.marinatfm.ui.exercises_activities.prosodia.Prosodia1Activity"
         android:label="activity_prosodia1"
         tools:layout="@layout/activity_prosodia1" />
+    <activity
+        android:id="@+id/respiracion1Activity"
+        android:name="com.example.marinatfm.ui.exercises_activities.respiracion.Respiracion1Activity"
+        android:label="activity_respiracion1"
+        tools:layout="@layout/activity_respiracion1" />
 </navigation>

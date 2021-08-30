@@ -97,6 +97,10 @@
 
     </string-array>
 
+    <!-- Respiracion 1 Aumento del tiempo respiratorio<!-->
+
+    <string name="exercise_respiracion_1">Inhale durante la linea ascendente, mantenga el aire con la linea plana y exhale cuando aparezca la linea descendente</string>
+
     <!-- Seleccion de ejercicios <!-->
     <string name="fonacion4">variaciondelaintensidad</string>
     <string name="respiracion1">aumentodeltiemporespiratorio</string>

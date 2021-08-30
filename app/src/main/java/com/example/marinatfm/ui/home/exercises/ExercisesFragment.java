@@ -120,7 +120,8 @@ public class ExercisesFragment extends Fragment {
                             Navigation.findNavController(requireView()).navigate(action);
                         }
                         if (exercise.equals(getString(R.string.respiracion1))){
-                            Toast.makeText(requireContext(), "En desarrollo", Toast.LENGTH_SHORT).show();
+                            NavDirections action = HomeFragmentDirections.actionNavigationHomeToRespiracion1Activity();
+                            Navigation.findNavController(requireView()).navigate(action);
                         }
                     }
                 });
@@ -176,7 +177,6 @@ public class ExercisesFragment extends Fragment {
         imageName = imageName.replaceAll(" ","");
         return imageName.toLowerCase(Locale.ROOT);
     }
-
 
     static class MyAdapter extends ArrayAdapter<String> {
 
