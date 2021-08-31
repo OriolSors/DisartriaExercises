@@ -182,7 +182,6 @@ public class Fonorespiratoria1Activity extends AppCompatActivity {
                     imageView.getLayoutParams().height = 250;
                     imageView.getLayoutParams().width = 250;
                     textView.setText("Inhale");
-                    textView.setTypeface(null, Typeface.BOLD_ITALIC);
                     textView.setTextColor(getResources().getColor(R.color.purple_500));
                     textView.setTextSize(24);
                     textView.setGravity(Gravity.CENTER);
@@ -192,8 +191,6 @@ public class Fonorespiratoria1Activity extends AppCompatActivity {
                     TextView textView = new TextView(Fonorespiratoria1Activity.this);
                     binding.groupLayout.addView(textView);
 
-                    textView = new TextView(Fonorespiratoria1Activity.this);
-                    binding.groupLayout.addView(textView);
                     textView.setText(objects[idx_objects]);
                     textView.setTextColor(getResources().getColor(R.color.purple_500));
                     textView.setTextSize(24);

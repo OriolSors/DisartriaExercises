@@ -208,7 +208,7 @@ public class Fonorespiratoria2Activity extends AppCompatActivity {
         String currentDate = sdf.format(new Date());
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference().child("audio/fonorespiratoria 2_"+currentDate);
+        StorageReference storageRef = storage.getReference().child("audio/Estabilidad fonorespiratoria_"+currentDate);
         InputStream stream = new FileInputStream(new File(fileName));
         UploadTask uploadTask = storageRef.putStream(stream);
         uploadTask.addOnFailureListener(new OnFailureListener() {
