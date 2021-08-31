@@ -6,6 +6,11 @@
     <string name="tab_planning">Planificación</string>
     <string name="tab_exercises">Ejercicios</string>
 
+    <!-- Fonacion 2 Montana rusa<!-->
+
+    <string name="exercise_fonacion_2">Mantenga el sonido que aparece en pantalla, pasando de grave a agudo o de agudo a grave segun si la montaña rusa sube o baja</string>
+
+
     <!-- Fonacion 4 Aumento de la intensidad<!-->
 
     <string name="exercise_fonacion_4">Lea la frase en voz alta, <b><big>aumentando</big></b> o <b><small>disminuyendo</small></b> la
@@ -103,7 +108,7 @@
 
     <!-- Respiracion 2 Aumento del tiempo respiratorio 2<!-->
 
-    <string name="exercise_respiracion_2">Inhale durante la linea ascendente, mantenga el aire con la linea plana y mantenga una \'F\' cuando aparezca la linea descendente</string>
+    <string name="exercise_respiracion_2">Inhale durante la linea ascendente, mantenga el aire con la linea plana y mantenga una \'S\' cuando aparezca la linea descendente</string>
 
 
     <!-- Fonorespiratoria 2 Estabilidad fonatoria<!-->
@@ -164,6 +169,7 @@
 
 
     <!-- Seleccion de ejercicios <!-->
+    <string name="fonacion2">montanarusa</string>
     <string name="fonacion4">variaciondelaintensidad</string>
     <string name="respiracion1">tiemporespiratorio</string>
     <string name="respiracion2">tiemporespiratorio2</string>

@@ -116,6 +116,10 @@ public class ExercisesFragment extends Fragment {
                             NavDirections action = HomeFragmentDirections.actionNavigationHomeToDiadococinesias1Activity();
                             Navigation.findNavController(requireView()).navigate(action);
                         }
+                        if (exercise.equals(getString(R.string.fonacion2))){
+                            NavDirections action = HomeFragmentDirections.actionNavigationHomeToFonacion2Activity();
+                            Navigation.findNavController(requireView()).navigate(action);
+                        }
                         if (exercise.equals(getString(R.string.fonacion4))){
                             NavDirections action = HomeFragmentDirections.actionNavigationHomeToFonacion4Activity();
                             Navigation.findNavController(requireView()).navigate(action);
@@ -182,6 +186,7 @@ public class ExercisesFragment extends Fragment {
 
     private String normalizeString(String str){
         String imageName = Normalizer.normalize(str, Normalizer.Form.NFD);
+        imageName = imageName.replaceAll("ñ","n");
         imageName = imageName.replaceAll("[^\\p{ASCII}]", "");
         imageName = imageName.replaceAll(" ","");
         return imageName.toLowerCase(Locale.ROOT);
