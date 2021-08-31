@@ -145,7 +145,7 @@ public class Fonacion2Activity extends AppCompatActivity {
 
     private void loadMountains() {
         binding.mountainsLayout.post(new Runnable() {
-            final String[] sounds = new String[]{"S","M","R"};
+            final String[] sounds = new String[]{"Z","M","R"};
             int round = 0;
             int idx_sound = 0;
 
