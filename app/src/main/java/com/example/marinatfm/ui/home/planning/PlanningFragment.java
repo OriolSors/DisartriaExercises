@@ -27,6 +27,7 @@ import com.example.marinatfm.MainActivity;
 import com.example.marinatfm.R;
 import com.example.marinatfm.databinding.ExercisesFragmentBinding;
 import com.example.marinatfm.databinding.PlanningFragmentBinding;
+import com.example.marinatfm.ui.exercises_activities.fonorespiratoria.Fonorespiratoria1Activity;
 import com.example.marinatfm.ui.home.exercises.ExercisesViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -77,12 +78,30 @@ public class PlanningFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 binding.blockLayout.removeAllViews();
+                Space entrySpace = new Space(requireContext());
+                ViewGroup.LayoutParams entryLp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                entrySpace.setLayoutParams(entryLp);
+                entrySpace.getLayoutParams().height = 30;
+                binding.blockLayout.addView(entrySpace);
+
                 for (DataSnapshot block: dataSnapshot.getChildren() ) {
+
+                    LinearLayout titleLayout = new LinearLayout(binding.blockLayout.getContext());
+                    titleLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+                    Space titleSpace = new Space(requireContext());
+                    ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    titleSpace.setLayoutParams(lp);
+                    titleSpace.getLayoutParams().width = 40;
+
                     TextView blockText = new TextView(binding.blockLayout.getContext());
                     blockText.setTextSize(18);
                     blockText.setText(block.getKey());
                     blockText.setTextColor(getResources().getColor(R.color.purple_500));
-                    binding.blockLayout.addView(blockText);
+
+                    titleLayout.addView(titleSpace);
+                    titleLayout.addView(blockText);
+                    binding.blockLayout.addView(titleLayout);
 
                     for(DataSnapshot exercise: block.getChildren()){
                         String value = exercise.getValue(String.class);
@@ -91,17 +110,17 @@ public class PlanningFragment extends Fragment {
                             LinearLayout checkLayout = new LinearLayout(binding.blockLayout.getContext());
                             checkLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-                            //TODO: Make correct Space as left margin
-                            TextView blankSpace = new TextView(checkLayout.getContext());
-                            blankSpace.setText("      ");
-
+                            Space space = new Space(requireContext());
+                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            space.setLayoutParams(params);
+                            space.getLayoutParams().width = 110;
 
                             CheckBox exerciseCheck = new CheckBox(binding.blockLayout.getContext());
                             exerciseCheck.setText(exercise.getKey());
                             exerciseCheck.setTextSize(16);
                             exerciseCheck.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_700)));
 
-                            checkLayout.addView(blankSpace);
+                            checkLayout.addView(space);
                             checkLayout.addView(exerciseCheck);
 
                             boolean check = Objects.equals(exercise.getValue(String.class), "enabled");

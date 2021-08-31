@@ -101,9 +101,17 @@
 
     <string name="exercise_respiracion_1">Inhale durante la linea ascendente, mantenga el aire con la linea plana y exhale cuando aparezca la linea descendente</string>
 
+    <!-- Respiracion 2 Aumento del tiempo respiratorio 2<!-->
+
+    <string name="exercise_respiracion_2">Inhale durante la linea ascendente, mantenga el aire con la linea plana y mantenga una \'F\' cuando aparezca la linea descendente</string>
 
 
-    <!-- Prosodia 1 Marcar silaba<!-->
+    <!-- Fonorespiratoria 2 Estabilidad fonatoria<!-->
+
+    <string name="exercise_fonorespiratoria_2">Inhale durante la linea ascendente, mantenga el aire con la linea plana y mantenga una \'A\' cuando aparezca la linea descendente</string>
+
+
+    <!-- Fonorespiratoria 1 Grupo fonico<!-->
 
     <string name="exercise_fonorespiratoria_1">Lea en voz alta las palabras, números o imagenes que aparecen en pantalla</string>
 
@@ -155,11 +163,12 @@
     </string-array>
 
 
-
     <!-- Seleccion de ejercicios <!-->
     <string name="fonacion4">variaciondelaintensidad</string>
-    <string name="respiracion1">aumentodeltiemporespiratorio</string>
+    <string name="respiracion1">tiemporespiratorio</string>
+    <string name="respiracion2">tiemporespiratorio2</string>
     <string name="fonorespiratoria1">grupofonico</string>
+    <string name="fonorespiratoria2">estabilidadfonatoria</string>
     <string name="diadococinesias1">diadococinesiasverbales</string>
     <string name="prosodia1">marcarsilaba</string>
 

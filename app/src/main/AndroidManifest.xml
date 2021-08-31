@@ -14,6 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MarinaTFM">
         <activity
+            android:name=".ui.exercises_activities.fonorespiratoria.Fonorespiratoria2Activity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.exercises_activities.respiracion.Respiracion2Activity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".ui.exercises_activities.fonorespiratoria.Fonorespiratoria1Activity"
             android:exported="true"
             android:screenOrientation="landscape" />

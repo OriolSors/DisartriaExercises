@@ -108,6 +108,10 @@ public class ExercisesFragment extends Fragment {
                             NavDirections action = HomeFragmentDirections.actionNavigationHomeToFonorespiratoria1Activity();
                             Navigation.findNavController(requireView()).navigate(action);
                         }
+                        if (exercise.equals(getString(R.string.fonorespiratoria2))){
+                            NavDirections action = HomeFragmentDirections.actionNavigationHomeToFonorespiratoria2Activity();
+                            Navigation.findNavController(requireView()).navigate(action);
+                        }
                         if (exercise.equals(getString(R.string.diadococinesias1))){
                             NavDirections action = HomeFragmentDirections.actionNavigationHomeToDiadococinesias1Activity();
                             Navigation.findNavController(requireView()).navigate(action);
@@ -122,6 +126,10 @@ public class ExercisesFragment extends Fragment {
                         }
                         if (exercise.equals(getString(R.string.respiracion1))){
                             NavDirections action = HomeFragmentDirections.actionNavigationHomeToRespiracion1Activity();
+                            Navigation.findNavController(requireView()).navigate(action);
+                        }
+                        if (exercise.equals(getString(R.string.respiracion2))){
+                            NavDirections action = HomeFragmentDirections.actionNavigationHomeToRespiracion2Activity();
                             Navigation.findNavController(requireView()).navigate(action);
                         }
                     }
@@ -166,7 +174,7 @@ public class ExercisesFragment extends Fragment {
                     exercises.add(exercise.getKey());
                     blocks.add(block.getKey());
                     images.add(requireContext().getResources()
-                            .getIdentifier(normalizeString(exercise.getKey()),"drawable",requireContext().getPackageName()));
+                            .getIdentifier(normalizeString(block.getKey()),"drawable",requireContext().getPackageName()));
                 }
             }
         }
@@ -204,8 +212,8 @@ public class ExercisesFragment extends Fragment {
 
             // now set our resources on views
             image.setImageResource(rImgs.get(position));
-            image.getLayoutParams().height = 250;
-            image.getLayoutParams().width = 250;
+            image.getLayoutParams().height = 240;
+            image.getLayoutParams().width = 240;
             exercise.setText(exercises.get(position));
             block.setText(blocks.get(position));
 

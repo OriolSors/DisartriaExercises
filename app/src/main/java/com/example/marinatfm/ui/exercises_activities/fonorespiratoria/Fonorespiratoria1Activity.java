@@ -45,9 +45,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -258,9 +261,11 @@ public class Fonorespiratoria1Activity extends AppCompatActivity {
     }
 
     private void safeToCloudStorage() throws FileNotFoundException {
-        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference().child("audio/Grupo fónico_"+currentTime.toString());
+        StorageReference storageRef = storage.getReference().child("audio/Grupo fónico_"+currentDate);
         InputStream stream = new FileInputStream(new File(fileName));
         UploadTask uploadTask = storageRef.putStream(stream);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -303,6 +308,7 @@ public class Fonorespiratoria1Activity extends AppCompatActivity {
     }
 
     private void setupMainWindowDisplayMode() {
+        Objects.requireNonNull(getSupportActionBar()).hide();
         View decorView = setSystemUiVisilityMode();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override

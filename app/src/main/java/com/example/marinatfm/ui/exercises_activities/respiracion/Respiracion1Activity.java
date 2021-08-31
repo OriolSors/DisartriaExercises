@@ -38,8 +38,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -71,7 +74,7 @@ public class Respiracion1Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startRecording();
-                startPlaying(new int[]{3000,3000,3000,3000},new int[]{1000,3000,3000,3000},new int[]{3000,3000,7000,10000});
+                startPlaying(new int[]{3000,3000,3000,5000},new int[]{1000,3000,3000,3000},new int[]{3000,3000,7000,10000});
                 binding.startBtn.setEnabled(false);
                 binding.restartBtn.setEnabled(true);
                 binding.finishBtn.setEnabled(true);
@@ -199,9 +202,11 @@ public class Respiracion1Activity extends AppCompatActivity {
     }
 
     private void safeToCloudStorage() throws FileNotFoundException {
-        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference().child("audio/Aumento del tiempo respiratorio_"+currentTime.toString());
+        StorageReference storageRef = storage.getReference().child("audio/Tiempo respiratorio_"+currentDate);
         InputStream stream = new FileInputStream(new File(fileName));
         UploadTask uploadTask = storageRef.putStream(stream);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -244,6 +249,7 @@ public class Respiracion1Activity extends AppCompatActivity {
     }
 
     private void setupMainWindowDisplayMode() {
+        Objects.requireNonNull(getSupportActionBar()).hide();
         View decorView = setSystemUiVisilityMode();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
