@@ -14,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaRecorder;
@@ -22,7 +23,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.example.marinatfm.MainActivity;
@@ -30,6 +33,7 @@ import com.example.marinatfm.R;
 import com.example.marinatfm.databinding.ActivityFonorespiratoria1Binding;
 import com.example.marinatfm.databinding.ActivityRespiracion1Binding;
 import com.example.marinatfm.ui.exercises_activities.prosodia.Prosodia1Activity;
+import com.example.marinatfm.ui.exercises_activities.respiracion.Respiracion1Activity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -53,9 +57,8 @@ public class Fonorespiratoria1Activity extends AppCompatActivity {
     //Binding declaration
     private ActivityFonorespiratoria1Binding binding;
 
-    //Images, numbers, days and months declarations
-    int[] images;
-    CharSequence[] numbers, days, months;
+    //Objects, numbers, days and months declarations
+    CharSequence[] objects, numbers, days, months;
 
 
     //MediaRecorder and File declaration
@@ -75,11 +78,7 @@ public class Fonorespiratoria1Activity extends AppCompatActivity {
         setupMainWindowDisplayMode();
 
         //Retrieving all data for the exercise
-        images = new int[]{R.drawable.fonoimage1,
-                R.drawable.fonoimage2,
-                R.drawable.fonoimage3,
-                R.drawable.fonoimage4,
-                R.drawable.fonoimage5};
+        objects = getResources().getTextArray(R.array.objetos_fonorespiratoria_1);
         numbers = getResources().getTextArray(R.array.numeros_fonorespiratoria_1);
         days = getResources().getTextArray(R.array.dias_fonorespiratoria_1);
         months = getResources().getTextArray(R.array.meses_fonorespiratoria_1);
@@ -104,11 +103,10 @@ public class Fonorespiratoria1Activity extends AppCompatActivity {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
-                                binding.groupLayout.removeAllViews();
                                 stopRecording();
-                                binding.startBtn.setEnabled(true);
-                                binding.restartBtn.setEnabled(false);
-                                binding.finishBtn.setEnabled(false);
+                                Intent intent = new Intent(Fonorespiratoria1Activity.this,Fonorespiratoria1Activity.class);
+                                startActivity(intent);
+                                finish();
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -155,37 +153,92 @@ public class Fonorespiratoria1Activity extends AppCompatActivity {
     }
 
     private void loadGroups() {
-        TextView textView = new TextView(this);
-        binding.groupLayout.addView(textView);
         binding.groupLayout.post(new Runnable() {
-            int idx_images = 0;
+            int idx_objects = 0;
             int idx_numbers = 0;
             int idx_days = 0;
             int idx_months = 0;
+
+            boolean transition = true;
             @Override
             public void run() {
-                if(idx_numbers < numbers.length){
+                if (transition){
+                    binding.groupLayout.removeAllViews();
+                    ImageView imageView = new ImageView(Fonorespiratoria1Activity.this);
+                    binding.groupLayout.addView(imageView);
+                    Space space = new Space(Fonorespiratoria1Activity.this);
+                    ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    space.setLayoutParams(params);
+                    space.getLayoutParams().width = 110;
+                    binding.groupLayout.addView(space);
+                    TextView textView = new TextView(Fonorespiratoria1Activity.this);
+                    binding.groupLayout.addView(textView);
+
+                    transition = false;
+                    imageView.setImageResource(R.drawable.flower_fonorespiratoria);
+                    imageView.getLayoutParams().height = 250;
+                    imageView.getLayoutParams().width = 250;
+                    textView.setText("Inhale");
+                    textView.setTypeface(null, Typeface.BOLD_ITALIC);
+                    textView.setTextColor(getResources().getColor(R.color.purple_500));
+                    textView.setTextSize(24);
+                    textView.setGravity(Gravity.CENTER);
+                    binding.groupLayout.postDelayed(this,1500);
+                }else if(idx_objects < objects.length){
+                    binding.groupLayout.removeAllViews();
+                    TextView textView = new TextView(Fonorespiratoria1Activity.this);
+                    binding.groupLayout.addView(textView);
+
+                    textView = new TextView(Fonorespiratoria1Activity.this);
+                    binding.groupLayout.addView(textView);
+                    textView.setText(objects[idx_objects]);
+                    textView.setTextColor(getResources().getColor(R.color.purple_500));
+                    textView.setTextSize(24);
+                    textView.setGravity(Gravity.CENTER);
+                    idx_objects++;
+                    transition = true;
+                    binding.groupLayout.postDelayed(this,1000 + idx_objects*400L);
+                }else if(idx_numbers < numbers.length){
+                    binding.groupLayout.removeAllViews();
+                    TextView textView = new TextView(Fonorespiratoria1Activity.this);
+                    binding.groupLayout.addView(textView);
+
                     textView.setText(numbers[idx_numbers]);
                     textView.setTextColor(getResources().getColor(R.color.purple_500));
                     textView.setTextSize(24);
                     textView.setGravity(Gravity.CENTER);
                     idx_numbers++;
-                    textView.postDelayed(this,idx_numbers*500L);
+                    transition = true;
+                    binding.groupLayout.postDelayed(this,1000 + idx_numbers*350L);
                 }else if(idx_days < days.length){
+                    binding.groupLayout.removeAllViews();
+                    TextView textView = new TextView(Fonorespiratoria1Activity.this);
+                    binding.groupLayout.addView(textView);
+
                     textView.setText(days[idx_days]);
                     textView.setTextColor(getResources().getColor(R.color.purple_500));
                     textView.setTextSize(24);
                     textView.setGravity(Gravity.CENTER);
                     idx_days++;
-                    textView.postDelayed(this,idx_days* 600L);
+                    transition = true;
+                    binding.groupLayout.postDelayed(this,1000 + idx_days* 400L);
                 }else if(idx_months < months.length){
+                    binding.groupLayout.removeAllViews();
+                    TextView textView = new TextView(Fonorespiratoria1Activity.this);
+                    binding.groupLayout.addView(textView);
+
                     textView.setText(months[idx_months]);
                     textView.setTextColor(getResources().getColor(R.color.purple_500));
                     textView.setTextSize(24);
                     textView.setGravity(Gravity.CENTER);
                     idx_months++;
-                    textView.postDelayed(this,idx_months* 700L);
+                    transition = true;
+                    binding.groupLayout.postDelayed(this,1000 + idx_months* 450L);
                 }else{
+                    binding.groupLayout.removeAllViews();
+                    TextView textView = new TextView(Fonorespiratoria1Activity.this);
+                    binding.groupLayout.addView(textView);
+
                     textView.setText("Fin del ejercicio");
                 }
             }

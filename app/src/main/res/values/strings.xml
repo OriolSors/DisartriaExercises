@@ -107,6 +107,14 @@
 
     <string name="exercise_fonorespiratoria_1">Lea en voz alta las palabras, números o imagenes que aparecen en pantalla</string>
 
+    <string-array name="objetos_fonorespiratoria_1">
+        <item>Sol</item>
+        <item>Sol, Cama</item>
+        <item>Sol, Cama, Martillo</item>
+        <item>Sol, Cama, Martillo, Berenjena</item>
+        <item>Sol, Cama, Martillo, Berenjena, Hipopótamo</item>
+    </string-array>
+
     <string-array name="numeros_fonorespiratoria_1">
         <item>1</item>
         <item>1, 2</item>

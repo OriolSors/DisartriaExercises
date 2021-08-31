@@ -87,6 +87,7 @@ public class Respiracion1Activity extends AppCompatActivity {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
+                                stopRecording();
                                 Intent intent = new Intent(Respiracion1Activity.this,Respiracion1Activity.class);
                                 startActivity(intent);
                                 finish();
