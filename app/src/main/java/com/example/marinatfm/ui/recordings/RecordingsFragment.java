@@ -66,6 +66,11 @@ public class RecordingsFragment extends Fragment {
     //MediaPlayer declarations
     private MediaPlayer player;
 
+    //String and int for last audio
+    private String lastPath;
+    private int lastPosition;
+    private int length = 0;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -121,17 +126,30 @@ public class RecordingsFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String path = audioFiles.get(position).getAbsolutePath();
-                    if(player.isPlaying()){
-                        adapter.rImgs.set(position, android.R.drawable.ic_media_play);
+
+                    if(path.equals(lastPath)){
+                        if(player.isPlaying()){
+                            adapter.rImgs.set(position, android.R.drawable.ic_media_ff);
+                            player.pause();
+                            length = player.getCurrentPosition();
+                        }else{
+                            adapter.rImgs.set(position, android.R.drawable.ic_media_pause);
+                            player.seekTo(length);
+                            player.start();
+                        }
                         MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
                         binding.recordingsListView.setAdapter(adapter);
-                        stopPlaying();
                     }else{
                         try {
+                            adapter.rImgs.set(lastPosition, android.R.drawable.ic_media_play);
+                            stopPlaying();
+
                             startPlaying(path);
-                            adapter.rImgs.set(position,android.R.drawable.ic_media_pause);
+                            adapter.rImgs.set(position, android.R.drawable.ic_media_pause);
                             MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
                             binding.recordingsListView.setAdapter(adapter);
+                            lastPath = path;
+                            lastPosition = position;
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -140,6 +158,8 @@ public class RecordingsFragment extends Fragment {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
                             player.reset();
+                            lastPath = null;
+                            length = 0;
                             adapter.rImgs.set(position,android.R.drawable.ic_media_play);
                             MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
                             binding.recordingsListView.setAdapter(adapter);
