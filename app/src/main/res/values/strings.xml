@@ -118,7 +118,7 @@
 
     <!-- Fonorespiratoria 1 Grupo fonico<!-->
 
-    <string name="exercise_fonorespiratoria_1">Lea en voz alta las palabras, números o imagenes que aparecen en pantalla</string>
+    <string name="exercise_fonorespiratoria_1">Lea en voz alta las palabras o números que aparecen en pantalla. Inhale cuando sea indicado</string>
 
     <string-array name="objetos_fonorespiratoria_1">
         <item>Sol</item>

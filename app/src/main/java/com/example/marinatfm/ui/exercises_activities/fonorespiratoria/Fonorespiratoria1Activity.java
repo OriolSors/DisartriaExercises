@@ -181,7 +181,7 @@ public class Fonorespiratoria1Activity extends AppCompatActivity {
                     imageView.setImageResource(R.drawable.flower_fonorespiratoria);
                     imageView.getLayoutParams().height = 250;
                     imageView.getLayoutParams().width = 250;
-                    textView.setText("Inhale");
+                    textView.setText("*Inhale*");
                     textView.setTextColor(getResources().getColor(R.color.purple_500));
                     textView.setTextSize(24);
                     textView.setGravity(Gravity.CENTER);
