@@ -178,4 +178,9 @@
     <string name="diadococinesias1">diadococinesiasverbales</string>
     <string name="prosodia1">marcarsilaba</string>
 
+    <!-- Info about us <!-->
+    <string name="info_about_us">Concept by Marina Aymerich Salvador \n
+        App developed by Oriol Sors Vidal \n
+        September 2021
+    </string>
 </resources>
