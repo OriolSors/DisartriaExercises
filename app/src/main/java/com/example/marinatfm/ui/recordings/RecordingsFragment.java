@@ -2,6 +2,7 @@ package com.example.marinatfm.ui.recordings;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,6 +29,7 @@ import androidx.navigation.Navigation;
 
 import com.example.marinatfm.R;
 import com.example.marinatfm.databinding.FragmentRecordingsBinding;
+import com.example.marinatfm.ui.exercises_activities.respiracion.Respiracion2Activity;
 import com.example.marinatfm.ui.home.HomeFragmentDirections;
 import com.example.marinatfm.ui.home.exercises.ExercisesFragment;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,6 +40,7 @@ import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -55,6 +59,7 @@ public class RecordingsFragment extends Fragment {
 
     //Audio Files declaration
     private ArrayList<File> audioFiles;
+    private ArrayList<StorageReference> audioRefs;
 
     //Dates, Exercises and Images integers declarations
     private ArrayList<String> exercises,dates;
@@ -122,60 +127,109 @@ public class RecordingsFragment extends Fragment {
 
             dialogLoading.hide();
 
-            binding.recordingsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String path = audioFiles.get(position).getAbsolutePath();
+            binding.recordingsListView.setOnItemClickListener((parent, view, position, id) -> {
+                String path = audioFiles.get(position).getAbsolutePath();
 
-                    if(path.equals(lastPath)){
-                        if(player.isPlaying()){
-                            adapter.rImgs.set(position, android.R.drawable.ic_media_ff);
-                            player.pause();
-                            length = player.getCurrentPosition();
-                        }else{
-                            adapter.rImgs.set(position, android.R.drawable.ic_media_pause);
-                            player.seekTo(length);
-                            player.start();
-                        }
-                        MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
-                        binding.recordingsListView.setAdapter(adapter);
+                if(path.equals(lastPath)){
+                    if(player.isPlaying()){
+                        adapter.rImgs.set(position, android.R.drawable.ic_media_ff);
+                        player.pause();
+                        length = player.getCurrentPosition();
                     }else{
-                        try {
-                            adapter.rImgs.set(lastPosition, android.R.drawable.ic_media_play);
-                            stopPlaying();
-
-                            startPlaying(path);
-                            adapter.rImgs.set(position, android.R.drawable.ic_media_pause);
-                            MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
-                            binding.recordingsListView.setAdapter(adapter);
-                            lastPath = path;
-                            lastPosition = position;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        adapter.rImgs.set(position, android.R.drawable.ic_media_pause);
+                        player.seekTo(length);
+                        player.start();
                     }
-                    player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mediaPlayer) {
-                            player.reset();
-                            lastPath = null;
-                            length = 0;
-                            adapter.rImgs.set(position,android.R.drawable.ic_media_play);
-                            MyAdapter adapter = new MyAdapter(requireContext(),exercises,dates,images);
-                            binding.recordingsListView.setAdapter(adapter);
-                        }
-                    });
+                    adapter.notifyDataSetChanged();
 
+                }else{
+                    try {
+                        adapter.rImgs.set(lastPosition, android.R.drawable.ic_media_play);
+                        stopPlaying();
+
+                        startPlaying(path);
+                        adapter.rImgs.set(position, android.R.drawable.ic_media_pause);
+
+                        adapter.notifyDataSetChanged();
+
+                        lastPath = path;
+                        lastPosition = position;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        player.reset();
+                        lastPath = null;
+                        length = 0;
+                        adapter.rImgs.set(position,android.R.drawable.ic_media_play);
+                        adapter.notifyDataSetChanged();
+
+                    }
+                });
+
+            });
+
+            binding.recordingsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    //Yes button clicked
+                                    deleteFromCloudStorage(i);
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setMessage("¿Deseas eliminar la grabación de la base de datos?").setPositiveButton("SI", dialogClickListener)
+                            .setNegativeButton("NO", dialogClickListener).show();
+
+                    return true;
                 }
             });
+
         }).addOnFailureListener(exception -> {
             // Handle any errors
+        });
+
+
+    }
+
+    private void deleteFromCloudStorage(int position) {
+        // Create a storage reference from our app
+        StorageReference audioRef = audioRefs.get(position);
+
+        // Delete the file
+        audioRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                onResume();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+            }
         });
     }
 
     private void loadPlayerAndAdapterElements() {
         player = new MediaPlayer();
         audioFiles = new ArrayList<>();
+        audioRefs = new ArrayList<>();
         exercises = new ArrayList<>();
         dates = new ArrayList<>();
         images = new ArrayList<>();
@@ -207,6 +261,7 @@ public class RecordingsFragment extends Fragment {
 
     private void getDatesAndExercises(StorageReference fileRef, File localFile) {
         audioFiles.add(localFile);
+        audioRefs.add(fileRef);
         String[] strings = fileRef.getName().split("_");
         exercises.add(strings[0]);
         dates.add(strings[1]);

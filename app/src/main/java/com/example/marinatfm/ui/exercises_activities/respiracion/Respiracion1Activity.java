@@ -26,6 +26,7 @@ import android.view.View;
 import com.example.marinatfm.MainActivity;
 import com.example.marinatfm.R;
 import com.example.marinatfm.databinding.ActivityRespiracion1Binding;
+import com.example.marinatfm.ui.exercises_activities.diadococinesias.Diadococinesias1Activity;
 import com.example.marinatfm.ui.exercises_activities.prosodia.Prosodia1Activity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,6 +60,9 @@ public class Respiracion1Activity extends AppCompatActivity {
     //Runnable object to start the exercise declaration
     private Runnable myRunnable;
 
+    //Boolean Recording mode
+    private boolean recording = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +77,34 @@ public class Respiracion1Activity extends AppCompatActivity {
         binding.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startRecording();
-                startPlaying(new int[]{3000,3000,3000,5000},new int[]{1000,3000,3000,3000},new int[]{3000,3000,7000,10000});
-                binding.startBtn.setEnabled(false);
-                binding.restartBtn.setEnabled(true);
-                binding.finishBtn.setEnabled(true);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                startRecording();
+                                recording = true;
+                                startPlaying(new int[]{3000,3000,3000,5000},new int[]{1000,3000,3000,3000},new int[]{3000,3000,7000,10000});
+                                binding.startBtn.setEnabled(false);
+                                binding.restartBtn.setEnabled(true);
+                                binding.finishBtn.setEnabled(true);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                startPlaying(new int[]{3000,3000,3000,5000},new int[]{1000,3000,3000,3000},new int[]{3000,3000,7000,10000});
+                                binding.startBtn.setEnabled(false);
+                                binding.restartBtn.setEnabled(true);
+                                binding.finishBtn.setEnabled(true);
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Respiracion1Activity.this);
+                builder.setMessage("Va a empezar el ejercicio. ¿Deseas grabar la actividad?").setPositiveButton("SI", dialogClickListener)
+                        .setNegativeButton("NO", dialogClickListener).show();
             }
         });
 
@@ -191,15 +218,40 @@ public class Respiracion1Activity extends AppCompatActivity {
     }
 
     private void finishExercise() {
-        stopRecording();
-        try {
-            safeToCloudStorage();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (recording){
+            stopRecording();
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            try {
+                                safeToCloudStorage();
+                                Intent intent = new Intent(Respiracion1Activity.this, MainActivity.class);
+                                startActivity(intent);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            Intent intent = new Intent(Respiracion1Activity.this, MainActivity.class);
+                            startActivity(intent);
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Respiracion1Activity.this);
+            builder.setMessage("¿Deseas subir la grabación de voz a la base de datos?").setPositiveButton("SI", dialogClickListener)
+                    .setNegativeButton("NO", dialogClickListener).show();
         }
-        Intent intent = new Intent(Respiracion1Activity.this, MainActivity.class);
-        startActivity(intent);
+
+
     }
+
 
     private void safeToCloudStorage() throws FileNotFoundException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());

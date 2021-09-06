@@ -47,6 +47,9 @@ public class Diadococinesias1Activity extends AppCompatActivity {
     private MediaRecorder recorder;
     private String fileName = null;
 
+    //Boolean Recording mode
+    private boolean recording = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,11 +67,35 @@ public class Diadococinesias1Activity extends AppCompatActivity {
         binding.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startRecording();
-                loadWords();
-                binding.startBtn.setEnabled(false);
-                binding.restartBtn.setEnabled(true);
-                binding.finishBtn.setEnabled(true);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                startRecording();
+                                recording = true;
+                                loadWords();
+                                binding.startBtn.setEnabled(false);
+                                binding.restartBtn.setEnabled(true);
+                                binding.finishBtn.setEnabled(true);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                loadWords();
+                                binding.startBtn.setEnabled(false);
+                                binding.restartBtn.setEnabled(true);
+                                binding.finishBtn.setEnabled(true);
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Diadococinesias1Activity.this);
+                builder.setMessage("Va a empezar el ejercicio. ¿Deseas grabar la actividad?").setPositiveButton("SI", dialogClickListener)
+                        .setNegativeButton("NO", dialogClickListener).show();
+
             }
         });
 
@@ -131,14 +158,39 @@ public class Diadococinesias1Activity extends AppCompatActivity {
     }
 
     private void finishExercise() {
-        stopRecording();
-        try {
-            safeToCloudStorage();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if(recording){
+            stopRecording();
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            try {
+                                safeToCloudStorage();
+                                Intent intent = new Intent(Diadococinesias1Activity.this, MainActivity.class);
+                                startActivity(intent);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            Intent intent = new Intent(Diadococinesias1Activity.this, MainActivity.class);
+                            startActivity(intent);
+
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Diadococinesias1Activity.this);
+            builder.setMessage("¿Deseas subir la grabación de voz a la base de datos?").setPositiveButton("SI", dialogClickListener)
+                    .setNegativeButton("NO", dialogClickListener).show();
         }
-        Intent intent = new Intent(Diadococinesias1Activity.this, MainActivity.class);
-        startActivity(intent);
+
+
     }
 
     private void safeToCloudStorage() throws FileNotFoundException {
@@ -179,7 +231,7 @@ public class Diadococinesias1Activity extends AppCompatActivity {
                 }
 
                 i++;
-                textView.postDelayed(this, 4000);
+                textView.postDelayed(this, 4500);
             }
         });
 

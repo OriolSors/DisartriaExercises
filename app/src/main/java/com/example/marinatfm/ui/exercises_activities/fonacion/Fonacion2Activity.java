@@ -26,6 +26,7 @@ import com.example.marinatfm.R;
 import com.example.marinatfm.databinding.ActivityFonacion2Binding;
 import com.example.marinatfm.databinding.ActivityFonacion4Binding;
 import com.example.marinatfm.databinding.ActivityMainBinding;
+import com.example.marinatfm.ui.exercises_activities.diadococinesias.Diadococinesias1Activity;
 import com.example.marinatfm.ui.exercises_activities.fonorespiratoria.Fonorespiratoria1Activity;
 import com.example.marinatfm.ui.exercises_activities.respiracion.Respiracion1Activity;
 import com.example.marinatfm.ui.home.HomeFragmentDirections;
@@ -58,6 +59,8 @@ public class Fonacion2Activity extends AppCompatActivity {
     private MediaRecorder recorder;
     private String fileName = null;
 
+    //Boolean Recording mode
+    private boolean recording = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +79,34 @@ public class Fonacion2Activity extends AppCompatActivity {
         binding.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startRecording();
-                loadMountains();
-                binding.startBtn.setEnabled(false);
-                binding.restartBtn.setEnabled(true);
-                binding.finishBtn.setEnabled(true);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                startRecording();
+                                recording = true;
+                                loadMountains();
+                                binding.startBtn.setEnabled(false);
+                                binding.restartBtn.setEnabled(true);
+                                binding.finishBtn.setEnabled(true);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                loadMountains();
+                                binding.startBtn.setEnabled(false);
+                                binding.restartBtn.setEnabled(true);
+                                binding.finishBtn.setEnabled(true);
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Fonacion2Activity.this);
+                builder.setMessage("Va a empezar el ejercicio. ¿Deseas grabar la actividad?").setPositiveButton("SI", dialogClickListener)
+                        .setNegativeButton("NO", dialogClickListener).show();
             }
         });
 
@@ -207,16 +233,41 @@ public class Fonacion2Activity extends AppCompatActivity {
     }
 
     private void finishExercise() {
-        stopRecording();
-        try {
-            safeToCloudStorage();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if(recording){
+            stopRecording();
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            try {
+                                safeToCloudStorage();
+                                Intent intent = new Intent(Fonacion2Activity.this, MainActivity.class);
+                                startActivity(intent);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            Intent intent = new Intent(Fonacion2Activity.this, MainActivity.class);
+                            startActivity(intent);
+
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Fonacion2Activity.this);
+            builder.setMessage("¿Deseas subir la grabación de voz a la base de datos?").setPositiveButton("SI", dialogClickListener)
+                    .setNegativeButton("NO", dialogClickListener).show();
         }
 
-        Intent intent = new Intent(Fonacion2Activity.this,MainActivity.class);
-        startActivity(intent);
+
     }
+
 
     private void safeToCloudStorage() throws FileNotFoundException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
