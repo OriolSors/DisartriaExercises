@@ -211,6 +211,9 @@ public class Prosodia1Activity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(Prosodia1Activity.this);
             builder.setMessage("¿Deseas subir la grabación de voz a la base de datos?").setPositiveButton("SI", dialogClickListener)
                     .setNegativeButton("NO", dialogClickListener).show();
+        }else{
+            Intent intent = new Intent(Prosodia1Activity.this, MainActivity.class);
+            startActivity(intent);
         }
 
 

@@ -249,6 +249,9 @@ public class Respiracion2Activity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(Respiracion2Activity.this);
             builder.setMessage("¿Deseas subir la grabación de voz a la base de datos?").setPositiveButton("SI", dialogClickListener)
                     .setNegativeButton("NO", dialogClickListener).show();
+        }else{
+            Intent intent = new Intent(Respiracion2Activity.this, MainActivity.class);
+            startActivity(intent);
         }
 
 

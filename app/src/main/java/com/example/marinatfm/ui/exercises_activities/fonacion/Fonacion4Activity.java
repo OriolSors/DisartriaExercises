@@ -196,6 +196,9 @@ public class Fonacion4Activity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(Fonacion4Activity.this);
             builder.setMessage("¿Deseas subir la grabación de voz a la base de datos?").setPositiveButton("SI", dialogClickListener)
                     .setNegativeButton("NO", dialogClickListener).show();
+        }else{
+            Intent intent = new Intent(Fonacion4Activity.this, MainActivity.class);
+            startActivity(intent);
         }
 
 
