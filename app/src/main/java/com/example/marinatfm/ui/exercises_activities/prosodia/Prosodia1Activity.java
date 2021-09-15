@@ -118,7 +118,7 @@ public class Prosodia1Activity extends AppCompatActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 binding.triosLayout.removeAllViews();
-                                stopRecording();
+                                if (recording) stopRecording();
                                 binding.startBtn.setEnabled(true);
                                 binding.restartBtn.setEnabled(false);
                                 binding.finishBtn.setEnabled(false);
@@ -142,28 +142,32 @@ public class Prosodia1Activity extends AppCompatActivity {
         binding.finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                finishExercise();
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(Prosodia1Activity.this);
-                builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
-                        .setNegativeButton("NO", dialogClickListener).show();
+                finishingDialog();
 
             }
         });
+    }
+
+    private void finishingDialog(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        finishExercise();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Prosodia1Activity.this);
+        builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
+                .setNegativeButton("NO", dialogClickListener).show();
     }
 
     private void shuffleGroupOfThree(CharSequence[] trios) {
@@ -251,14 +255,17 @@ public class Prosodia1Activity extends AppCompatActivity {
             public void run() {
                 if(i >= triosShuffled.size()){
                     textView.setText("");
+                    finishExercise();
                 }else{
                     textView.setText(triosShuffled.get(i));
                     textView.setTextColor(getResources().getColor(R.color.purple_500));
                     textView.setTextSize(26);
+
+                    i++;
+                    textView.postDelayed(this, 2000);
                 }
 
-                i++;
-                textView.postDelayed(this, 2000);
+
             }
         });
 

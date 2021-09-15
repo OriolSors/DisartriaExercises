@@ -77,6 +77,14 @@ public class Respiracion1Activity extends AppCompatActivity {
         binding.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                startPlaying(new int[]{3000,3000,3000,5000},new int[]{1000,3000,3000,3000},new int[]{3000,3000,7000,10000});
+                binding.startBtn.setEnabled(false);
+                binding.restartBtn.setEnabled(true);
+                binding.finishBtn.setEnabled(true);
+
+                /*
+
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -105,6 +113,8 @@ public class Respiracion1Activity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Respiracion1Activity.this);
                 builder.setMessage("Va a empezar el ejercicio. ¿Deseas grabar la actividad?").setPositiveButton("SI", dialogClickListener)
                         .setNegativeButton("NO", dialogClickListener).show();
+
+                 */
             }
         });
 
@@ -117,7 +127,7 @@ public class Respiracion1Activity extends AppCompatActivity {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
-                                stopRecording();
+                                if (recording) stopRecording();
                                 Intent intent = new Intent(Respiracion1Activity.this,Respiracion1Activity.class);
                                 startActivity(intent);
                                 finish();
@@ -141,29 +151,33 @@ public class Respiracion1Activity extends AppCompatActivity {
         binding.finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                finishExercise();
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(Respiracion1Activity.this);
-                builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
-                        .setNegativeButton("NO", dialogClickListener).show();
+                finishingDialog();
 
             }
         });
 
+    }
+
+    private void finishingDialog(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        finishExercise();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Respiracion1Activity.this);
+        builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
+                .setNegativeButton("NO", dialogClickListener).show();
     }
 
     private void startPlaying(int[] increasings, int[] constants, int[] decreasings) {
@@ -209,6 +223,7 @@ public class Respiracion1Activity extends AppCompatActivity {
                         binding.increasingImage.postDelayed(this,1000);
                     }else{
                         binding.textView.setText("Fin del ejercicio");
+                        finishExercise();
                     }
 
                 }

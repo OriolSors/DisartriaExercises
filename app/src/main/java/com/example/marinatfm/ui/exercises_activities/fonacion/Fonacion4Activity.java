@@ -114,7 +114,7 @@ public class Fonacion4Activity extends AppCompatActivity {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
-                                stopRecording();
+                                if (recording) stopRecording();
                                 binding.sentencesLayout.removeAllViews();
                                 binding.startBtn.setEnabled(true);
                                 binding.restartBtn.setEnabled(false);
@@ -139,30 +139,34 @@ public class Fonacion4Activity extends AppCompatActivity {
         binding.finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                finishExercise();
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(Fonacion4Activity.this);
-                builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
-                        .setNegativeButton("NO", dialogClickListener).show();
+                finishingDialog();
 
             }
         });
 
 
+    }
+
+    private void finishingDialog(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        finishExercise();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Fonacion4Activity.this);
+        builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
+                .setNegativeButton("NO", dialogClickListener).show();
     }
 
     private void finishExercise() {

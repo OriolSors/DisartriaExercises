@@ -50,6 +50,9 @@ public class Diadococinesias1Activity extends AppCompatActivity {
     //Boolean Recording mode
     private boolean recording = false;
 
+    //Long milliseconds number
+    private long millis;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +78,7 @@ public class Diadococinesias1Activity extends AppCompatActivity {
                                 //Yes button clicked
                                 startRecording();
                                 recording = true;
-                                loadWords();
+                                loadWords(millis);
                                 binding.startBtn.setEnabled(false);
                                 binding.restartBtn.setEnabled(true);
                                 binding.finishBtn.setEnabled(true);
@@ -83,7 +86,7 @@ public class Diadococinesias1Activity extends AppCompatActivity {
 
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked
-                                loadWords();
+                                loadWords(millis);
                                 binding.startBtn.setEnabled(false);
                                 binding.restartBtn.setEnabled(true);
                                 binding.finishBtn.setEnabled(true);
@@ -94,7 +97,33 @@ public class Diadococinesias1Activity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(Diadococinesias1Activity.this);
                 builder.setMessage("Va a empezar el ejercicio. ¿Deseas grabar la actividad?").setPositiveButton("SI", dialogClickListener)
-                        .setNegativeButton("NO", dialogClickListener).show();
+                        .setNegativeButton("NO", dialogClickListener);
+
+                String[] modes = {"Lento", "Normal", "Rápido"};
+
+                AlertDialog.Builder modeBuilder = new AlertDialog.Builder(Diadococinesias1Activity.this);
+                modeBuilder.setTitle("Escoge una velocidad");
+                modeBuilder.setItems(modes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (modes[which]) {
+                            case "Lento":
+                                millis = 4500;
+                                break;
+                            case "Normal":
+                                millis = 3500;
+                                break;
+                            case "Rápido":
+                                millis = 2500;
+                                break;
+                        }
+
+                        builder.show();
+                    }
+                });
+                modeBuilder.show();
+
+
 
             }
         });
@@ -109,7 +138,7 @@ public class Diadococinesias1Activity extends AppCompatActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 binding.wordsLayout.removeAllViews();
-                                stopRecording();
+                                if (recording) stopRecording();
                                 binding.startBtn.setEnabled(true);
                                 binding.restartBtn.setEnabled(false);
                                 binding.finishBtn.setEnabled(false);
@@ -133,28 +162,32 @@ public class Diadococinesias1Activity extends AppCompatActivity {
         binding.finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                finishExercise();
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(Diadococinesias1Activity.this);
-                builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
-                        .setNegativeButton("NO", dialogClickListener).show();
+                finishingDialog();
 
             }
         });
+    }
+
+    private void finishingDialog(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        finishExercise();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Diadococinesias1Activity.this);
+        builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
+                .setNegativeButton("NO", dialogClickListener).show();
     }
 
     private void finishExercise() {
@@ -218,7 +251,7 @@ public class Diadococinesias1Activity extends AppCompatActivity {
         });
     }
 
-    private void loadWords() {
+    private void loadWords(long millis) {
         TextView textView = new TextView(this);
         binding.wordsLayout.addView(textView);
         textView.post(new Runnable() {
@@ -227,16 +260,18 @@ public class Diadococinesias1Activity extends AppCompatActivity {
             public void run() {
                 if(i >= words.length){
                     textView.setText("");
+                    finishExercise();
                 }else{
                     textView.setText(words[i]);
                     textView.setTextColor(getResources().getColor(R.color.purple_500));
                     textView.setTextSize(32);
-                }
 
-                i++;
-                textView.postDelayed(this, 4500);
+                    i++;
+                    textView.postDelayed(this, millis);
+                }
             }
         });
+
 
     }
 

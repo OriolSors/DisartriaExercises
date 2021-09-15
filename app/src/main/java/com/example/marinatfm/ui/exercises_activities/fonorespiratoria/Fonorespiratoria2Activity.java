@@ -119,7 +119,7 @@ public class Fonorespiratoria2Activity extends AppCompatActivity {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
-                                stopRecording();
+                                if (recording) stopRecording();
                                 Intent intent = new Intent(Fonorespiratoria2Activity.this,Fonorespiratoria2Activity.class);
                                 startActivity(intent);
                                 finish();
@@ -143,29 +143,33 @@ public class Fonorespiratoria2Activity extends AppCompatActivity {
         binding.finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                finishExercise();
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(Fonorespiratoria2Activity.this);
-                builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
-                        .setNegativeButton("NO", dialogClickListener).show();
+                finishingDialog();
 
             }
         });
 
+    }
+
+    private void finishingDialog(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        finishExercise();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Fonorespiratoria2Activity.this);
+        builder.setMessage("VAS A FINALIZAR EL EJERCICIO:").setPositiveButton("SI", dialogClickListener)
+                .setNegativeButton("NO", dialogClickListener).show();
     }
 
     private void startPlaying(int[] increasings, int[] constants, int[] decreasings) {
@@ -211,6 +215,7 @@ public class Fonorespiratoria2Activity extends AppCompatActivity {
                         binding.increasingImage.postDelayed(this,1000);
                     }else{
                         binding.textView.setText("Fin del ejercicio");
+                        finishExercise();
                     }
 
                 }

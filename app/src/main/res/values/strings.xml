@@ -8,13 +8,13 @@
 
     <!-- Fonacion 2 Montana rusa<!-->
 
-    <string name="exercise_fonacion_2">Mantenga el sonido que aparece en pantalla, pasando de grave a agudo o de agudo a grave segun si la montaña rusa sube o baja</string>
+    <string name="exercise_fonacion_2">Mantenga el sonido que aparece en pantalla, pasando de grave a agudo o de agudo a grave según si la montaña rusa sube o baja</string>
 
 
     <!-- Fonacion 4 Aumento de la intensidad<!-->
 
     <string name="exercise_fonacion_4">Lea la frase en voz alta, <b><big>aumentando</big></b> o <b><small>disminuyendo</small></b> la
-        intensidad en las palabras resaltadas</string>
+        intensidad en las palabras resaltadas. Desliza para ir revelando las siguientes frases.</string>
 
     <string-array name="sentences_fonacion_4">
         <item>Hoy cenaré <b><big>huevos</big></b> fritos con patatas</item>

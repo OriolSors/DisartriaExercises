@@ -10,14 +10,13 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="576dp"
-        android:layout_height="61dp"
+        android:layout_width="700dp"
+        android:layout_height="62dp"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="8dp"
+        android:gravity="center"
         android:text="@string/exercise_fonacion_2"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
