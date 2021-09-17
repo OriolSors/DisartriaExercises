@@ -177,8 +177,24 @@ public class Respiracion2Activity extends AppCompatActivity {
             int idx_constant = constants[0];
             int idx_decrease = decreasings[0];
             int round = 1;
+            int cycle = 0;
             @Override
             public void run() {
+
+                switch (cycle){
+                    case 0:
+                        binding.soundTextView.setText("F");
+                        break;
+                    case 1:
+                        binding.soundTextView.setText("S");
+                        break;
+                    case 2:
+                        binding.soundTextView.setText("Z, de zanahoria");
+                        break;
+                }
+
+                binding.soundTextView.setTextSize(30);
+
                 if(idx_increase > 0){
                     binding.increasingImage.setVisibility(View.VISIBLE);
                     binding.textView.setText(String.valueOf(idx_increase/1000));
@@ -213,8 +229,19 @@ public class Respiracion2Activity extends AppCompatActivity {
                         idx_decrease=decreasings[round];
                         binding.increasingImage.postDelayed(this,1000);
                     }else{
-                        binding.textView.setText("Fin del ejercicio");
-                        finishExercise();
+                        cycle++;
+                        if (cycle < 3){
+                            binding.textView.setText("Cambio de sonido");
+                            idx_increase = increasings[0];
+                            idx_constant = constants[0];
+                            idx_decrease = decreasings[0];
+                            round = 1;
+                            binding.increasingImage.postDelayed(this,1000);
+                        }else{
+                            binding.textView.setText("Fin del ejercicio");
+                            finishExercise();
+                        }
+
                     }
 
                 }

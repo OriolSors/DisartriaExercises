@@ -11,10 +11,29 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="700dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="@string/exercise_respiracion_2"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/imagesLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/soundTextView" />
+
+    <TextView
+        android:id="@+id/soundTextView"
+        android:layout_width="700dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="Sonido a aparecer"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,17 +42,17 @@
 
     <LinearLayout
         android:id="@+id/imagesLayout"
-        android:layout_width="580dp"
-        android:layout_height="192dp"
+        android:layout_width="589dp"
+        android:layout_height="187dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:background="#F0EAFD"
         android:gravity="center"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/restartBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/increasingImage"
