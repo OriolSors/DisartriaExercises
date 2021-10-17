@@ -104,16 +104,16 @@
 
     <!-- Respiracion 1 Aumento del tiempo respiratorio<!-->
 
-    <string name="exercise_respiracion_1">Inhale durante la linea ascendente, mantenga el aire con la linea plana y exhale cuando aparezca la linea descendente</string>
+    <string name="exercise_respiracion_1">Inhale durante la línea ascendente, mantenga el aire con la línea plana y exhale cuando aparezca la línea descendente</string>
 
     <!-- Respiracion 2 Aumento del tiempo respiratorio 2<!-->
 
-    <string name="exercise_respiracion_2">Inhale durante la linea ascendente, mantenga el aire con la linea plana y mantenga el sonido indicado durante la linea descendente</string>
+    <string name="exercise_respiracion_2">Inhale durante la línea ascendente, mantenga el aire con la línea plana y mantenga el sonido indicado durante la línea descendente</string>
 
 
     <!-- Fonorespiratoria 2 Estabilidad fonatoria<!-->
 
-    <string name="exercise_fonorespiratoria_2">Inhale durante la linea ascendente, mantenga el aire con la linea plana y mantenga una \'A\' cuando aparezca la linea descendente</string>
+    <string name="exercise_fonorespiratoria_2">Inhale durante la línea ascendente, mantenga el aire con la línea plana y mantenga una \'A\' cuando aparezca la línea descendente</string>
 
 
     <!-- Fonorespiratoria 1 Grupo fonico<!-->
