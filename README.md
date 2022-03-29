@@ -2,9 +2,9 @@
 
 ## Main screens
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/31882514/160611118-6e65356e-09f5-4ee4-be5f-f313675ced78.jpeg" width="300"/>   
-  <img src="https://user-images.githubusercontent.com/31882514/160611348-2810ff98-d3ca-4cb6-bed5-bd34f393d091.jpeg" width="300"/>   
-  <img src="https://user-images.githubusercontent.com/31882514/160611356-4bf2fd49-8776-474f-8d1c-3bc29743a390.jpeg" width="300"/>
+  <img src="https://user-images.githubusercontent.com/31882514/160611118-6e65356e-09f5-4ee4-be5f-f313675ced78.jpeg" width="270"/>   
+  <img src="https://user-images.githubusercontent.com/31882514/160611348-2810ff98-d3ca-4cb6-bed5-bd34f393d091.jpeg" width="270"/>   
+  <img src="https://user-images.githubusercontent.com/31882514/160611356-4bf2fd49-8776-474f-8d1c-3bc29743a390.jpeg" width="270"/>
 </p>
 
 ## Diadococinesias
